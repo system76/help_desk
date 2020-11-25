@@ -1,4 +1,4 @@
 use Mix.Config
 
-config :copy_cat,
+config :help_desk,
   producer: {Broadway.DummyProducer, []}

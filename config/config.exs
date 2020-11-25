@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :copy_cat,
+config :help_desk,
   producer:
     {BroadwaySQS.Producer,
      queue_url: "",
