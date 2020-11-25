@@ -1,3 +1,3 @@
-# Copy Cat
+# Help Desk
 
-A template repository for new queue based services.
+A microservice for our Zendesk integration

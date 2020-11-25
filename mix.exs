@@ -1,15 +1,15 @@
-defmodule CopyCat.MixProject do
+defmodule HelpDesk.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :copy_cat,
+      app: :help_desk,
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: [
-        copy_cat: [
+        help_desk: [
           include_executables_for: [:unix],
           applications: [runtime_tools: :permanent]
         ]
@@ -21,7 +21,7 @@ defmodule CopyCat.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {CopyCat.Application, []}
+      mod: {HelpDesk.Application, []}
     ]
   end
 

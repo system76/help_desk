@@ -1,4 +1,4 @@
-defmodule CopyCat do
+defmodule HelpDesk do
   @moduledoc """
   Review all incoming orders for signs of fraud
   """
