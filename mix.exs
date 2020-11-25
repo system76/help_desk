@@ -6,6 +6,7 @@ defmodule HelpDesk.MixProject do
       app: :help_desk,
       version: "0.1.0",
       elixir: "~> 1.10",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: [
@@ -29,12 +30,19 @@ defmodule HelpDesk.MixProject do
   defp deps do
     [
       {:appsignal, "~> 1.0"},
-      {:bottle, github: "system76/bottle", branch: "elixir"},
+      {:bottle, github: "system76/bottle", ref: "92eb872"},
       {:broadway_sqs, "~> 0.6.0"},
-      {:saxy, "~> 1.1"},
+      {:finch, "~> 0.3"},
       {:hackney, "~> 1.16"},
       {:jason, "~> 1.2", override: true},
-      {:credo, "~> 1.3", only: [:dev, :test]}
+      {:poison, "~> 4.0", override: true},
+      {:saxy, "~> 1.1"},
+      {:zen_ex, github: "system76/zen_ex", ref: "051aa25"},
+      {:credo, "~> 1.3", only: [:dev, :test]},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end
