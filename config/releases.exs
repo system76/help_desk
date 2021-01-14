@@ -23,6 +23,5 @@ config :zen_ex,
     order_id: help_desk_config["ZENDESK_FIELD_ORDER_ID"],
     product_model: help_desk_config["ZENDESK_FIELD_PRODUCT_MODEL"],
     product_serial: help_desk_config["ZENDESK_FIELD_PRODUCT_SERIAL"],
-    referrer: help_desk_config["ZENDESK_FIELD_REFERRER"],
     security_codes: help_desk_config["ZENDESK_FIELD_SECURITY_CODES"]
   ]
