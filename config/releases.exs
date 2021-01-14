@@ -8,11 +8,11 @@ help_desk_config =
 config :help_desk,
   producer:
     {BroadwaySQS.Producer,
-     queue_url: help_desk_config["queue_url"],
+     queue_url: help_desk_config["SQS_QUEUE_URL"],
      config: [
-       access_key_id: help_desk_config["access_key_id"],
-       secret_access_key: help_desk_config["secret_access_key"],
-       region: help_desk_config["region"]
+       access_key_id: help_desk_config["ACCESS_KEY_ID"],
+       secret_access_key: help_desk_config["SECRET_ACCESS_KEY"],
+       region: help_desk_config["SQS_QUEUE_REGION"]
      ]}
 
 config :zen_ex,
