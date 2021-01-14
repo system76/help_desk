@@ -8,7 +8,12 @@ config :help_desk,
        access_key_id: "",
        secret_access_key: "",
        region: "us-east-2"
-     ]}
+     ]},
+  handlers: [
+    organizations: HelpDesk.Organizations,
+    tickets: HelpDesk.Tickets,
+    users: HelpDesk.Users
+  ]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -17,6 +22,6 @@ config :logger, :console,
 
 config :appsignal, :config,
   active: false,
-  name: "Copy Cat"
+  name: "HelpDesk"
 
 import_config "#{Mix.env()}.exs"

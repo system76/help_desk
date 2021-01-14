@@ -9,10 +9,11 @@ defmodule HelpDesk.Application do
 
   def start(_type, _args) do
     children = [
+      {Finch, name: Sparrow},
       {HelpDesk.Broadway, []}
     ]
 
-    Logger.info("Starting Copy Cat")
+    Logger.info("Starting HelpDesk")
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
