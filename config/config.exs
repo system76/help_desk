@@ -18,7 +18,7 @@ config :help_desk,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id],
-  level: :info
+  level: :debug
 
 config :appsignal, :config,
   active: false,
