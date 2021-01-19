@@ -9,10 +9,11 @@ defmodule HelpDesk.Users do
   end
 
   def sync(%User{} = user) do
-    user
-    |> zendesk_attributes()
-    |> ZenEx.Model.User.create()
-    |> maybe_update_primary_email(user)
+    attrs = zendesk_attributes(user)
+
+    with %ZendeskUser{} = zendesk_user <- ZenEx.Model.User.create(attrs) do
+      maybe_update_primary_email(zendesk_user, attrs)
+    end
   end
 
   defp full_name(user), do: String.trim("#{user.first_name} #{user.last_name}")
