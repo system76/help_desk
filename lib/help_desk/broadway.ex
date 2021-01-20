@@ -56,32 +56,32 @@ defmodule HelpDesk.Broadway do
   end
 
   defp notify_handler({:user_created, message}) do
-    Logger.debug("Handling User Created message")
+    Logger.info("Handling User Created message")
     notify_configured_handler(:users, :sync, message)
   end
 
   defp notify_handler({:question_created, message}) do
-    Logger.debug("Handling Question Created message")
+    Logger.info("Handling Question Created message")
     notify_configured_handler(:tickets, :create, message)
   end
 
   defp notify_handler({:macro_applied, message}) do
-    Logger.debug("Handling Macro Applied message")
+    Logger.info("Handling Macro Applied message")
     notify_configured_handler(:tickets, :apply_macros, message)
   end
 
   defp notify_handler({:organization_created, message}) do
-    Logger.debug("Handling Organization Created message")
+    Logger.info("Handling Organization Created message")
     notify_configured_handler(:organizations, :create, message)
   end
 
   defp notify_handler({:organization_joined, message}) do
-    Logger.debug("Handling Organization Joined message")
+    Logger.info("Handling Organization Joined message")
     notify_configured_handler(:organizations, :join, message)
   end
 
   defp notify_handler({:organization_left, message}) do
-    Logger.debug("Handling Organization Left message")
+    Logger.info("Handling Organization Left message")
     notify_configured_handler(:organizations, :leave, message)
   end
 
