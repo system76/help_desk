@@ -9,6 +9,7 @@ defmodule HelpDesk.Application do
 
   def start(_type, _args) do
     children = [
+      {SpandexDatadog.ApiServer, Application.get_env(:help_desk, SpandexDatadog.ApiServer)},
       {Finch, name: Sparrow},
       {HelpDesk.Broadway, []}
     ]

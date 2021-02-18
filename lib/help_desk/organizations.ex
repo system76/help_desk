@@ -1,4 +1,7 @@
 defmodule HelpDesk.Organizations do
+  use Appsignal.Instrumentation.Decorators
+  use Spandex.Decorators
+
   alias Bottle.Account.V1.{OrganizationCreated, OrganizationLeft, OrganizationJoined}
   alias ZenEx.Entity.Organization
 
@@ -6,10 +9,14 @@ defmodule HelpDesk.Organizations do
   @callback join(struct()) :: struct() | {:error, String.t() | atom()}
   @callback leave(struct()) :: struct() | {:error, String.t() | atom()}
 
+  @decorate transaction(:zendesk)
+  @decorate span(service: :zendesk, type: :web)
   def create(%OrganizationCreated{organization: %{id: id, name: name}}) do
     ZenEx.Model.Organization.create(%Organization{external_id: id, name: name})
   end
 
+  @decorate transaction(:zendesk)
+  @decorate span(service: :zendesk, type: :web)
   def join(%OrganizationJoined{organization: organization, user: user}) do
     with %{entities: [zendesk_user]} <- ZenEx.Model.User.search(external_id: user.id),
          %{entities: [zendesk_organization]} <- ZenEx.Model.Organization.search(external_id: organization.id) do
@@ -17,6 +24,8 @@ defmodule HelpDesk.Organizations do
     end
   end
 
+  @decorate transaction(:zendesk)
+  @decorate span(service: :zendesk, type: :web)
   def leave(%OrganizationLeft{organization: organization, user: user}) do
     with %{entities: [zendesk_user]} <- ZenEx.Model.User.search(external_id: user.id),
          %{entities: memberships} <- ZenEx.Model.OrganizationMembership.list(zendesk_user),

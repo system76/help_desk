@@ -1,8 +1,11 @@
 defmodule HelpDesk.Broadway do
   use Broadway
   use Appsignal.Instrumentation.Decorators
+  use Spandex.Decorators
 
   require Logger
+
+  alias HelpDesk.Tracer
 
   def start_link(_opts) do
     producer_module = Application.fetch_env!(:help_desk, :producer)
@@ -26,6 +29,7 @@ defmodule HelpDesk.Broadway do
 
   @impl true
   @decorate transaction(:queue)
+  @decorate trace(service: :help_desk, type: :function)
   def handle_message(_, message, _context) do
     bottle =
       message.data
@@ -35,7 +39,8 @@ defmodule HelpDesk.Broadway do
     Bottle.RequestId.read(:queue, bottle)
 
     with {:error, reason} <- notify_handler(bottle.resource) do
-      Logger.error(reason)
+      Tracer.span_error(%RuntimeError{message: inspect(reason)}, nil)
+      Logger.error(inspect(reason))
     end
 
     message
@@ -56,37 +61,43 @@ defmodule HelpDesk.Broadway do
   end
 
   defp notify_handler({:user_created, message}) do
+    Logger.metadata(user_id: message.user.id)
     Logger.info("Handling User Created message")
     notify_configured_handler(:users, :sync, message)
   end
 
   defp notify_handler({:question_created, message}) do
+    Logger.metadata(question_id: message.question.id, user_id: message.question.customer.id)
     Logger.info("Handling Question Created message")
     notify_configured_handler(:tickets, :create, message)
   end
 
   defp notify_handler({:macro_applied, message}) do
+    Logger.metadata(question_id: message.question.id)
     Logger.info("Handling Macro Applied message")
     notify_configured_handler(:tickets, :apply_macros, message)
   end
 
   defp notify_handler({:organization_created, message}) do
+    Logger.metadata(organization_id: message.organization.id)
     Logger.info("Handling Organization Created message")
     notify_configured_handler(:organizations, :create, message)
   end
 
   defp notify_handler({:organization_joined, message}) do
+    Logger.metadata(organization_id: message.organization.id, user_id: message.user.id)
     Logger.info("Handling Organization Joined message")
     notify_configured_handler(:organizations, :join, message)
   end
 
   defp notify_handler({:organization_left, message}) do
+    Logger.metadata(organization_id: message.organization.id, user_id: message.user.id)
     Logger.info("Handling Organization Left message")
     notify_configured_handler(:organizations, :leave, message)
   end
 
-  defp notify_handler(_) do
-    Logger.debug("Ignoring message")
+  defp notify_handler({event, _message}) do
+    Logger.warn("Ignoring #{event} message")
     :ignored
   end
 

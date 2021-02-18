@@ -1,10 +1,15 @@
 defmodule HelpDesk.Tickets do
+  use Appsignal.Instrumentation.Decorators
+  use Spandex.Decorators
+
   alias Bottle.Support.V1.{Question, QuestionCreated, MacroApplied}
   alias HelpDesk.{Users, Zendesk}
   alias ZenEx.Entity.Ticket
 
   @callback create(struct()) :: struct() | {:error, String.t() | atom()}
 
+  @decorate transaction(:zendesk)
+  @decorate span(service: :zendesk, type: :web)
   def create(%QuestionCreated{question: question}) do
     {:ok, submitter_id} = get_zendesk_user_id(question.submitter)
 

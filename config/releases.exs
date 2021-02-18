@@ -15,6 +15,12 @@ config :help_desk,
        region: help_desk_config["SQS_QUEUE_REGION"]
      ]}
 
+config :appsignal, :config,
+  push_api_key: help_desk_config["APPSIGNAL_PUSH_KEY"],
+  env: help_desk_config["ENVIRONMENT"]
+
+config :help_desk, HelpDesk.Tracer, env: help_desk_config["ENVIRONMENT"]
+
 config :zen_ex,
   subdomain: help_desk_config["ZENDESK_DOMAIN"],
   api_token: help_desk_config["ZENDESK_TOKEN"],

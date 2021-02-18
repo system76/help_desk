@@ -32,14 +32,19 @@ defmodule HelpDesk.MixProject do
       {:appsignal, "~> 1.0"},
       {:bottle, github: "system76/bottle", ref: "1621c66"},
       {:broadway_sqs, "~> 0.6.0"},
+      {:credo, "~> 1.3", only: [:dev, :test]},
+      {:decorator, "~> 1.2"},
       {:finch, "~> 0.3"},
       {:hackney, "~> 1.16"},
       {:jason, "~> 1.2", override: true},
+      {:logger_json, github: "Nebo15/logger_json", ref: "8e4290a"},
+      {:mox, "~> 1.0", only: :test},
       {:poison, "~> 4.0", override: true},
       {:saxy, "~> 1.1"},
-      {:zen_ex, github: "system76/zen_ex", ref: "051aa25"},
-      {:credo, "~> 1.3", only: [:dev, :test]},
-      {:mox, "~> 1.0", only: :test}
+      {:spandex_datadog, "~> 1.1"},
+      {:spandex, "~> 3.0.3"},
+      {:telemetry, "~> 0.4"},
+      {:zen_ex, github: "system76/zen_ex", ref: "051aa25"}
     ]
   end
 

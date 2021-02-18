@@ -1,4 +1,7 @@
 defmodule HelpDesk.Zendesk do
+  use Appsignal.Instrumentation.Decorators
+  use Spandex.Decorators
+
   def get(path) do
     :get
     |> Finch.build(complete_url(path), zendesk_headers())
@@ -21,6 +24,8 @@ defmodule HelpDesk.Zendesk do
     |> finch_request()
   end
 
+  @decorate transaction(:zendesk)
+  @decorate span(service: :zendesk, type: :web)
   defp finch_request(req) do
     with {:ok, %{body: body} = response} <- Finch.request(req, Sparrow) do
       {:ok, %{response | body: Jason.decode!(body)}}
