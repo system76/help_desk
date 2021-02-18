@@ -34,6 +34,7 @@ config :help_desk, HelpDesk.Tracer,
   disabled?: true
 
 config :help_desk, SpandexDatadog.ApiServer,
+  batch_size: 2,
   http: HTTPoison,
   host: "127.0.0.1"
 

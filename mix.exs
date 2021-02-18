@@ -36,6 +36,7 @@ defmodule HelpDesk.MixProject do
       {:decorator, "~> 1.2"},
       {:finch, "~> 0.3"},
       {:hackney, "~> 1.16"},
+      {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2", override: true},
       {:logger_json, github: "Nebo15/logger_json", ref: "8e4290a"},
       {:mox, "~> 1.0", only: :test},
