@@ -16,7 +16,7 @@ config :help_desk,
      ]}
 
 config :appsignal, :config,
-  push_api_key: help_desk_config["APPSIGNAL_PUSH_KEY"],
+  push_api_key: help_desk_config["APPSIGNAL_KEY"],
   env: help_desk_config["ENVIRONMENT"]
 
 config :help_desk, HelpDesk.Tracer, env: help_desk_config["ENVIRONMENT"]
