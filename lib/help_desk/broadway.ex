@@ -66,6 +66,18 @@ defmodule HelpDesk.Broadway do
     notify_configured_handler(:users, :sync, message)
   end
 
+  defp notify_handler({:user_updated, message}) do
+    Logger.metadata(user_id: message.user.id)
+    Logger.debug("Handling User Updated message")
+    notify_configured_handler(:users, :sync, message)
+  end
+
+  defp notify_handler({:user_deleted, message}) do
+    Logger.metadata(user_id: message.user.id)
+    Logger.debug("Handling User Deleted message")
+    notify_configured_handler(:users, :delete, message)
+  end
+
   defp notify_handler({:question_created, message}) do
     Logger.metadata(question_id: message.question.id, user_id: message.question.customer.id)
     Logger.info("Handling Question Created message")
