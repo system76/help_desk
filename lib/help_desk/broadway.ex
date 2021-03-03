@@ -68,13 +68,13 @@ defmodule HelpDesk.Broadway do
 
   defp notify_handler({:user_updated, message}) do
     Logger.metadata(user_id: message.user.id)
-    Logger.debug("Handling User Updated message")
+    Logger.info("Handling User Updated message")
     notify_configured_handler(:users, :sync, message)
   end
 
   defp notify_handler({:user_deleted, message}) do
     Logger.metadata(user_id: message.user.id)
-    Logger.debug("Handling User Deleted message")
+    Logger.info("Handling User Deleted message")
     notify_configured_handler(:users, :delete, message)
   end
 
