@@ -57,8 +57,13 @@ defmodule HelpDesk.Tickets do
   defp ticket_assignee(%Question{customer: user, submitter: user}, user), do: nil
   defp ticket_assignee(%Question{}, agent_zendesk_id), do: agent_zendesk_id
 
-  defp ticket_comment(%Question{message: message, submitter: nil}), do: %{body: message, public: false}
-  defp ticket_comment(%Question{message: message}), do: %{body: message}
+  defp ticket_comment(%Question{message: message, tags: tags}) do
+    if "order-verification" in tags do
+      %{body: message, public: false}
+    else
+      %{body: message}
+    end
+  end
 
   defp ticket_custom_fields({"order_id", value}, acc, config),
     do: zendesk_custom_field(:order_id, value, acc, config)
