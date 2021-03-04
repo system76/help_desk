@@ -30,7 +30,7 @@ defmodule HelpDesk.MixProject do
   defp deps do
     [
       {:appsignal, "~> 1.0"},
-      {:bottle, github: "system76/bottle", ref: "1621c66"},
+      {:bottle, github: "system76/bottle", ref: "041d8ae"},
       {:broadway_sqs, "~> 0.6.0"},
       {:credo, "~> 1.3", only: [:dev, :test]},
       {:decorator, "~> 1.2"},
