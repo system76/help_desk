@@ -7,12 +7,14 @@ help_desk_config =
 
 config :help_desk,
   producer:
-    {BroadwaySQS.Producer,
-     queue_url: help_desk_config["SQS_QUEUE_URL"],
-     config: [
-       access_key_id: help_desk_config["ACCESS_KEY_ID"],
-       secret_access_key: help_desk_config["SECRET_ACCESS_KEY"],
-       region: help_desk_config["SQS_QUEUE_REGION"]
+    {BroadwayRabbitMQ.Producer,
+     queue: help_desk_config["RABBITMQ_QUEUE_NAME"],
+     connection: [
+       username: help_desk_config["RABBITMQ_USERNAME"],
+       password: help_desk_config["RABBITMQ_PASSWORD"],
+       host: help_desk_config["RABBITMQ_HOST"],
+       port: help_desk_config["RABBITMQ_PORT"],
+       ssl_options: [verify: :verify_none]
      ]}
 
 config :appsignal, :config,
