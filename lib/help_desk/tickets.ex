@@ -30,8 +30,7 @@ defmodule HelpDesk.Tickets do
 
     ZenEx.Model.Ticket.create(ticket)
   rescue
-    e ->
-      {:error, e.message}
+    %{message: message} -> {:error, message}
   end
 
   def apply_macros(%MacroApplied{question: %{id: question_id}, macros: macros}),
