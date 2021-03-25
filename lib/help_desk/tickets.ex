@@ -11,27 +11,26 @@ defmodule HelpDesk.Tickets do
   @decorate transaction(:zendesk)
   @decorate span(service: :zendesk, type: :web)
   def create(%QuestionCreated{question: question}) do
-    {:ok, submitter_id} = get_zendesk_user_id(question.submitter)
+    with {:ok, submitter_id} <- get_zendesk_user_id(question.submitter) do
+      custom_fields = Enum.reduce(question.custom_fields, [], &ticket_custom_fields(&1, &2, zendesk_custom_fields()))
 
-    custom_fields = Enum.reduce(question.custom_fields, [], &ticket_custom_fields(&1, &2, zendesk_custom_fields()))
+      assignee_id = ticket_assignee(question, submitter_id)
 
-    assignee_id = ticket_assignee(question, submitter_id)
+      ticket = %Ticket{
+        assignee_id: assignee_id,
+        description: ticket_comment(question),
+        custom_fields: custom_fields,
+        requester_id: submitter_id,
+        status: ticket_status(assignee_id, submitter_id),
+        subject: question.subject,
+        submitter_id: submitter_id,
+        tags: question.tag
+      }
 
-    ticket = %Ticket{
-      assignee_id: assignee_id,
-      description: ticket_comment(question),
-      custom_fields: custom_fields,
-      requester_id: submitter_id,
-      status: ticket_status(assignee_id, submitter_id),
-      subject: question.subject,
-      submitter_id: submitter_id,
-      tags: question.tag
-    }
-
-    ZenEx.Model.Ticket.create(ticket)
+      ZenEx.Model.Ticket.create(ticket)
+    end
   rescue
-    e ->
-      {:error, e.message}
+    e -> {:error, e.message}
   end
 
   def apply_macros(%MacroApplied{question: %{id: question_id}, macros: macros}),

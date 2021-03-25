@@ -29,9 +29,10 @@ defmodule HelpDesk.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:amqp, "~> 2.0", override: true},
       {:appsignal, "~> 1.0"},
-      {:bottle, github: "system76/bottle", ref: "041d8ae"},
-      {:broadway_sqs, "~> 0.6.0"},
+      {:bottle, github: "system76/bottle", ref: "b3b78b6"},
+      {:broadway_rabbitmq, "~> 0.6"},
       {:credo, "~> 1.3", only: [:dev, :test]},
       {:decorator, "~> 1.2"},
       {:finch, "~> 0.3"},

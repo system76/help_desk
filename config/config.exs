@@ -1,14 +1,7 @@
 use Mix.Config
 
 config :help_desk,
-  producer:
-    {BroadwaySQS.Producer,
-     queue_url: "",
-     config: [
-       access_key_id: "",
-       secret_access_key: "",
-       region: "us-east-2"
-     ]},
+  producer: {BroadwayRabbitMQ.Producer, queue: "", connection: ""},
   handlers: [
     organizations: HelpDesk.Organizations,
     tickets: HelpDesk.Tickets,
