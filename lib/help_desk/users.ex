@@ -40,7 +40,7 @@ defmodule HelpDesk.Users do
   @decorate transaction(:zendesk)
   @decorate span(service: :zendesk, type: :web)
   defp maybe_update_primary_email(zendesk_user, user) do
-    with %{entites: identities} <- ZenEx.Model.Identity.list(zendesk_user),
+    with %{entities: identities} <- ZenEx.Model.Identity.list(zendesk_user),
          identity = Enum.find(identities, &(&1.value == user.email)),
          %{primary: true} <- ZenEx.Model.Identity.make_primary(identity) do
       zendesk_user
