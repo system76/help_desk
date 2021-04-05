@@ -67,7 +67,7 @@ defmodule HelpDesk.Users do
 
   def zendesk_attributes(user) do
     %ZendeskUser{
-      email: user.email,
+      email: String.downcase(user.email),
       name: full_name(user),
       external_id: user.id,
       phone: user.phone_number,
