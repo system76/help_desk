@@ -17,10 +17,6 @@ config :logger_json, :backend,
   formatter: LoggerJSON.Formatters.DatadogLogger,
   metadata: :all
 
-config :appsignal, :config,
-  active: false,
-  name: "HelpDesk"
-
 config :help_desk, HelpDesk.Tracer,
   service: :help_desk,
   adapter: SpandexDatadog.Adapter,

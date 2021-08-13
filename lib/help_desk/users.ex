@@ -1,5 +1,4 @@
 defmodule HelpDesk.Users do
-  use Appsignal.Instrumentation.Decorators
   use Spandex.Decorators
 
   alias Bottle.Account.V1.{User, UserDeleted}
@@ -8,7 +7,6 @@ defmodule HelpDesk.Users do
   @callback delete(struct()) :: struct() | {:error, String.t() | atom()}
   @callback sync(struct()) :: struct() | {:error, String.t() | atom()}
 
-  @decorate transaction(:zendesk)
   @decorate span(service: :zendesk, type: :web)
   def delete(%UserDeleted{user: user}) do
     with %{entities: [%ZendeskUser{id: zendesk_user_id}]} <- ZenEx.Model.User.list(external_id: user.id),
@@ -21,7 +19,6 @@ defmodule HelpDesk.Users do
     sync(user)
   end
 
-  @decorate transaction(:zendesk)
   @decorate span(service: :zendesk, type: :web)
   def sync(%User{} = user) do
     attrs = zendesk_attributes(user)
@@ -37,7 +34,6 @@ defmodule HelpDesk.Users do
     zendesk_user
   end
 
-  @decorate transaction(:zendesk)
   @decorate span(service: :zendesk, type: :web)
   defp maybe_update_primary_email(zendesk_user, user) do
     with %{entities: identities} <- ZenEx.Model.Identity.list(zendesk_user),

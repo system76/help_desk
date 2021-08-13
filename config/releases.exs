@@ -17,10 +17,6 @@ config :help_desk,
        ssl_options: [verify: :verify_none]
      ]}
 
-config :appsignal, :config,
-  push_api_key: help_desk_config["APPSIGNAL_KEY"],
-  env: help_desk_config["ENVIRONMENT"]
-
 config :help_desk, HelpDesk.Tracer, env: help_desk_config["ENVIRONMENT"]
 
 config :zen_ex,
