@@ -1,6 +1,5 @@
 defmodule HelpDesk.Broadway do
   use Broadway
-  use Appsignal.Instrumentation.Decorators
   use Spandex.Decorators
 
   require Logger
@@ -28,7 +27,6 @@ defmodule HelpDesk.Broadway do
   end
 
   @impl true
-  @decorate transaction(:queue)
   @decorate trace(service: :help_desk, type: :function)
   def handle_message(_, message, _context) do
     bottle =
@@ -53,10 +51,6 @@ defmodule HelpDesk.Broadway do
 
   @impl true
   def handle_failed([failed_message], _context) do
-    Appsignal.send_error(%RuntimeError{}, "Failed Broadway Message", [], %{}, nil, fn transaction ->
-      Appsignal.Transaction.set_sample_data(transaction, "message", %{data: failed_message.data})
-    end)
-
     [failed_message]
   end
 

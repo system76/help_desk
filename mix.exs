@@ -30,7 +30,6 @@ defmodule HelpDesk.MixProject do
   defp deps do
     [
       {:amqp, "~> 2.0", override: true},
-      {:appsignal, "~> 1.0"},
       {:bottle, github: "system76/bottle", ref: "b3b78b6"},
       {:broadway_rabbitmq, "~> 0.6"},
       {:credo, "~> 1.3", only: [:dev, :test]},
